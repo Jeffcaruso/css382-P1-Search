@@ -87,6 +87,26 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
+
+    print("Start:", problem.getStartState())
+    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+
+    "Order for direction selection N, E, S, W"
+    'problem.g'
+
+    problem.applyAction(problem.getStartState(), problem.getAction())
+
+    """
+    Plan:
+    1) Figure out how to move at all (applyaction?)
+        - Determine what exactly action and movement vector are??
+    2) Look into the stack implentation in util
+    3) Code the DFS implementations
+    
+    """
+
+
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
