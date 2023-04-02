@@ -88,6 +88,8 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
+    fringe = util.Stack() #intalize stack
+    
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
@@ -95,7 +97,7 @@ def depthFirstSearch(problem):
     "Order for direction selection N, E, S, W"
     'problem.g'
 
-    problem.applyAction(problem.getStartState(), problem.getAction())
+    # problem.applyAction(problem.getStartState(), problem.getAction())
 
     """
     Plan:
@@ -106,7 +108,7 @@ def depthFirstSearch(problem):
     
     """
 
-
+    #return actions 
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
