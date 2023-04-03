@@ -88,8 +88,9 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
-    fringe = util.Stack() #intalize stack
+    fringe = util.Stack() #intalize stack (probably holding successors)
     actions = [] #store path of actions done to get to goal
+    #maybe we'll need to keep pervious nodes? visted 
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
@@ -102,9 +103,58 @@ def depthFirstSearch(problem):
     # is it not visited yet?
     # go there, update items, add directions to the list.
     # initial testing
+    #set the intial state
+    #set intial position 
+
     from game import Directions
     s = Directions.SOUTH
     w = Directions.WEST
+    e = Directions.EAST
+    n = Directions.NORTH
+
+    #making a agent 'pointer
+    from game import GameStateData
+
+    from game import Grid
+    
+    #SearchAgent p = SearchAgent()
+
+    #GameStateData g = GameStateData()
+
+    #g.agentStates.
+
+    #g.
+
+    #Grid g = problem.grid
+
+    from game import Configuration
+    from game import Actions
+    # import game
+    # localConfig = game.Configuration()
+    #Configuration localConfig = Configuration()
+
+    a = 0
+    b = -1
+    vector = a,b
+
+    
+    act = Actions.vectorToDirection(vector)
+
+    print(act)
+
+    localCon = Configuration((5,5), act)
+
+    print(localCon.getPosition())
+
+    localCon = localCon.generateSuccessor(vector)
+    print(localCon.generateSuccessor(vector))
+
+    print(problem.getSuccessors(localCon.getPosition()))
+
+    print(localCon.getPosition())
+    
+    # maybe will not need to track visited coordinates becuase of using stack for DFS
+
     return  [s, s, w, s, w, w, s, w]
 
 
