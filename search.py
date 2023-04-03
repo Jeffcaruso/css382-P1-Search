@@ -89,7 +89,7 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
 
     fringe = util.Stack() #intalize stack
-    
+    actions = [] #store path of actions done to get to goal
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
