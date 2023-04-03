@@ -97,6 +97,17 @@ def depthFirstSearch(problem):
     "Order for direction selection N, E, S, W"
     'problem.g'
 
+    ## So, in the end, we will need to be constructing this.
+    # So we will ask where can we go,
+    # is it not visited yet?
+    # go there, update items, add directions to the list.
+    # initial testing
+    from game import Directions
+    s = Directions.SOUTH
+    w = Directions.WEST
+    return  [s, s, w, s, w, w, s, w]
+
+
     # problem.applyAction(problem.getStartState(), problem.getAction())
 
     """
