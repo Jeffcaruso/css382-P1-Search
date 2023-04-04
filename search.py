@@ -122,63 +122,109 @@ def depthFirstSearch(problem):
     # localConfig = game.Configuration()
     #Configuration localConfig = Configuration()
 
-    #step 1 build directions
-    # South
-    a = 0
-    b = -1
-    vectorS = a,b
-    # North
-    a = 0
-    b = -1
-    vectorN = a,b
-    # East
-    a = 1
-    b = 0
-    vectorE = a,b
+    # #step 1 build directions
+    # # South
+    # a = 0
+    # b = -1
+    # vectorS = a,b
+    # # North
+    # a = 0
+    # b = -1
+    # vectorN = a,b
+    # # East
+    # a = 1
+    # b = 0
+    # vectorE = a,b
 
-    # West
-    a = -1
-    b = 0
-    vectorW= a,b
+    # # West
+    # a = -1
+    # b = 0
+    # vectorW= a,b
 
-    visited = [(5,5)]
+    # visited = [(5,5)]
 
-    #stack is 'fringe'
-    #push the start of the stack  (starting position) (push starting configuration)
-    #act = Actions.vectorToDirection(vectorS) #WorkOnLater()
+    # #stack is 'fringe'
+    # #push the start of the stack  (starting position) (push starting configuration)
+    # #act = Actions.vectorToDirection(vectorS) #WorkOnLater()
     
-    ###probably need to do something here like pushing on the first round of items
-    act = None
-    localCon = Configuration((5,5), act) #WorkOnLater (dynamic config start location)
-    fringe.push(localCon) # pushing on starting position
-    #move from that...
-    while not fringe.isEmpty():    ##somewhere near the start, need to check if we have left the destination
-        localCon = fringe.pop()
-        print(localCon.getPosition())
-        #if checks if its been visited 
-            # add position to visited  if has not been visited 
-        visited.append(localCon.getPosition())
-        actions.append(localCon.getDirection())
-        if problem.isGoalState(localCon.getPosition()):
-            return actions 
+    # ###probably need to do something here like pushing on the first round of items
+    # act = None
+    # startState = problem.getStartState() #starting state 
+    # localCon = Configuration(startState, act) #WorkOnLater (dynamic config start location)
+    # # get possible paths
+    # options = problem.getSuccessors(localCon.getPosition()) # [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
+    
+    # for coor,dir,cost in options:
+    #     print("in for loop ",coor, dir, cost)
+    #     localCon = Configuration(coor , dir)
+    #     if (visited.__contains__(localCon.getPosition())):
+    #         print("already visited") # shouldn't hit this...
+    #     else:
+    #         #push onto stack
+    #         # visited.append(localCon.getPosition())
+    #         print(localCon.direction)
+    #         fringe.push(localCon)            
+    #     #end of for loop
+
+    # visited.append(startState)
+    # localCon = fringe.pop()
+    # visited.append(localCon.getPosition())
+    # actions.append(localCon.getDirection()) 
+    # if problem.isGoalState(localCon.getPosition()): # if the intial state is the goal state 
+    #     return actions 
+    
+    # for coor,dir,cost in options:
+    #     print("in for loop ",coor, dir, cost)
+    #     localCon = Configuration(coor , dir)
+    #     if (visited.__contains__(localCon.getPosition())):
+    #         print("already visited")
+    #         actions.pop() 
+    #         #actions.remove()
+    #     else:
+    #         #push onto stack
+    #         # visited.append(localCon.getPosition())
+    #         fringe.push(localCon)
+
+
+
+    
+
+    # #print(fringe.pop())
+    # #print(fringe.pop())
+    # print("before starting while loop")
+
+    # #fringe.push(localCon) # pushing on starting position
+    # #move from that...
+    # while not fringe.isEmpty():    ##somewhere near the start, need to check if we have left the destination
+    #     localCon = fringe.pop()
+    #     print(localCon.getPosition())
+    #     #if checks if its been visited 
+    #         # add position to visited  if has not been visited 
+    #     visited.append(localCon.getPosition())
+    #     actions.append(localCon.getDirection()) #change this to add
+    #     if problem.isGoalState(localCon.getPosition()):
+    #         print(actions)
+    #         return actions 
             
-        import time
-        time.sleep(1)
-        # get possible paths
-        options = problem.getSuccessors(localCon.getPosition()) # [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
-        print("options:", problem.getSuccessors(localCon.getPosition()))
+    #     import time
+    #     time.sleep(1)
+    #     # get possible paths
+    #     options = problem.getSuccessors(localCon.getPosition()) # [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
+    #     print("options:", problem.getSuccessors(localCon.getPosition()))
         
-        for coor,dir,cost in options:
-            print("in for loop ",coor, dir, cost)
-            localCon = Configuration(coor , dir)
-            if (visited.__contains__(localCon.getPosition())):
-                print("already visited")
-            else:
-                #push onto stack
-                # visited.append(localCon.getPosition())
-                fringe.push(localCon)
+    #     for coor,dir,cost in options:
+    #         print("in for loop ",coor, dir, cost)
+    #         localCon = Configuration(coor , dir)
+    #         if (visited.__contains__(localCon.getPosition())):
+    #             print("already visited")
+    #             actions.pop() 
+    #             #actions.remove()
+    #         else:
+    #             #push onto stack
+    #             # visited.append(localCon.getPosition())
+    #             fringe.push(localCon)
             
-            #end of for loop
+    #         #end of for loop
     
     
 
@@ -207,7 +253,56 @@ def depthFirstSearch(problem):
 
     # return  [s, s, w, s, w, w, s, w]
     
+    """Pseudocode
+    function graphSearch saerch()
+        closed <- an empty set (visited)
+        fringe <- INSERT(MAKE-NODE(INITIAL-STATE[problem],fringe))
+        loop do
+            if fringe is empty then return failure 
+            node <-REMOVE-FRONT(fringe)
+            if GOAL-TEST(problem,STATE[node])then return node
+            if STATE[node] is not in closed then 
+                add STATE[node] to closed 
+                for child in EXPAND(state[node], problem) do
+                    fringe.insert(childnode,fringe)
+    /pseudocode
+    """
+    visited = []
+    startState = problem.getStartState() 
+    localCon = Configuration(startState, None) #effectively node later...
+    firstTime = True
+
+    fringe.push(localCon)
+    import time
+
+    while not fringe.isEmpty():
+        time.sleep(1)
+        node = fringe.pop() #list [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
+        if not firstTime:
+            actions.append(node.getDirection())
+            print(node.getDirection())
+        firstTime = False
+        if problem.isGoalState(node.getPosition()):
+            print(actions)
+            return actions 
+        # print(node.getPosition())
+        if  node.getPosition() not in visited: #(visited.__contains__(localCon.getPosition())
+            print(node.getPosition())
+            visited.append(node.getPosition())
+            # get options   
+            options = problem.getSuccessors(node.getPosition())
+            for coor,dir,cost in options:
+                #work
+                node = Configuration(coor,dir)
+                fringe.push(node)
+        
+
+        #end while
+
+
+
     
+
     
     
     
