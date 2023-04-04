@@ -145,7 +145,10 @@ def depthFirstSearch(problem):
 
     #stack is 'fringe'
     #push the start of the stack  (starting position) (push starting configuration)
-    act = Actions.vectorToDirection(vectorS) #WorkOnLater()
+    #act = Actions.vectorToDirection(vectorS) #WorkOnLater()
+    
+    ###probably need to do something here like pushing on the first round of items
+    act = None
     localCon = Configuration((5,5), act) #WorkOnLater (dynamic config start location)
     fringe.push(localCon) # pushing on starting position
     #move from that...
