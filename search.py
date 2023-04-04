@@ -114,18 +114,7 @@ def depthFirstSearch(problem):
 
     #making a agent 'pointer
     from game import GameStateData
-
-    from game import Grid
     
-    #SearchAgent p = SearchAgent()
-
-    #GameStateData g = GameStateData()
-
-    #g.agentStates.
-
-    #g.
-
-    #Grid g = problem.grid
 
     from game import Configuration
     from game import Actions
@@ -133,12 +122,65 @@ def depthFirstSearch(problem):
     # localConfig = game.Configuration()
     #Configuration localConfig = Configuration()
 
+    #step 1 build directions
+    # South
     a = 0
     b = -1
-    vector = a,b
+    vectorS = a,b
+    # North
+    a = 0
+    b = -1
+    vectorN = a,b
+    # East
+    a = 1
+    b = 0
+    vectorE = a,b
 
+    # West
+    a = -1
+    b = 0
+    vectorW= a,b
+
+    visited = [(5,5)]
+
+    #stack is 'fringe'
+    #push the start of the stack  (starting position) (push starting configuration)
+    act = Actions.vectorToDirection(vectorS) #WorkOnLater()
+    localCon = Configuration((5,5), act) #WorkOnLater (dynamic config start location)
+    fringe.push(localCon) # pushing on starting position
+    #move from that...
+    while not fringe.isEmpty():    ##somewhere near the start, need to check if we have left the destination
+        localCon = fringe.pop()
+        print(localCon.getPosition())
+        #if checks if its been visited 
+            # add position to visited  if has not been visited 
+        visited.append(localCon.getPosition())
+        actions.append(localCon.getDirection())
+        if problem.isGoalState(localCon.getPosition()):
+            return actions 
+            
+        import time
+        time.sleep(1)
+        # get possible paths
+        options = problem.getSuccessors(localCon.getPosition()) # [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
+        print("options:", problem.getSuccessors(localCon.getPosition()))
+        
+        for coor,dir,cost in options:
+            print("in for loop ",coor, dir, cost)
+            localCon = Configuration(coor , dir)
+            if (visited.__contains__(localCon.getPosition())):
+                print("already visited")
+            else:
+                #push onto stack
+                # visited.append(localCon.getPosition())
+                fringe.push(localCon)
+            
+            #end of for loop
     
-    act = Actions.vectorToDirection(vector)
+    
+
+    """
+    act = Actions.vectorToDirection(vectorS)
 
     print(act)
 
@@ -146,16 +188,27 @@ def depthFirstSearch(problem):
 
     print(localCon.getPosition())
 
-    localCon = localCon.generateSuccessor(vector)
-    print(localCon.generateSuccessor(vector))
+    localCon = localCon.generateSuccessor(vectorS)
+    print(localCon.generateSuccessor(vectorS))
 
     print(problem.getSuccessors(localCon.getPosition()))
 
     print(localCon.getPosition())
     
+    actions.append(s)
+    actions.append(s)
+    actions.append(w)
+    """
+
     # maybe will not need to track visited coordinates becuase of using stack for DFS
 
-    return  [s, s, w, s, w, w, s, w]
+    # return  [s, s, w, s, w, w, s, w]
+    
+    
+    
+    
+    
+    return actions
 
 
     # problem.applyAction(problem.getStartState(), problem.getAction())
