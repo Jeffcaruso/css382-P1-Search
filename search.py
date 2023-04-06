@@ -275,15 +275,25 @@ def depthFirstSearch(problem):
     fringe.push(localCon)
     import time
 
+
+    #history handling vars
+    pastNode = localCon
+    #position = None
+    x = 0
+    y = 0
+
+
     while not fringe.isEmpty():
         time.sleep(1)
         node = fringe.pop() #list [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
         if not firstTime:
-            actions.append(node.getDirection())
+            actions.append(node)
             print(node.getDirection())
         firstTime = False
         if problem.isGoalState(node.getPosition()):
-            print(actions)
+            # print(actions)
+            for item in actions:
+                print(item.getPosition(), " and go ", item.getDirection()) 
             return actions 
         # print(node.getPosition())
         if  node.getPosition() not in visited: #(visited.__contains__(localCon.getPosition())
@@ -296,16 +306,41 @@ def depthFirstSearch(problem):
                 node = Configuration(coor,dir)
                 fringe.push(node)
         
+        #history handling (path reporting help)
+        position = pastNode.getPosition()
+        x = position[0]
+        y = position[1]
 
+        position = node.getPosition()
+        curX = position[0]
+        curY = position[1]
+        
+        tempNode = Configuration((1,1),'North')
+
+        if(abs(curX - x) > 1 | abs(curY - y) > 1):
+            #always illegal move, need to cut history
+            print("No teleporting")
+            node = fringe.pop()
+            pruneHistory(node,tempNode,actions)
+
+        if(abs(curX - x) == 1 & abs(curY - y) == 1):
+            #always illegal move, need to cut history
+            print("No teleporting")
+            node = fringe.pop()
+            pruneHistory(node,tempNode, actions)
+
+
+        # if(pastNode.getPosition()):
+        #     print("nope")
+            #end if
+        pastNode = node
         #end while
 
 
+    # for item in actions:
+    #     print(item.getPosition(), " and go ", item.getDirection()) 
 
-    
 
-    
-    
-    
     return actions
 
 
@@ -322,6 +357,31 @@ def depthFirstSearch(problem):
 
     #return actions 
     util.raiseNotDefined()
+
+
+
+def pruneHistory(node, tempNode, actions):
+    # pop off items until item removed is equal to node, then push it back on
+    from game import Configuration
+    print("pruneHistory node ", node.getPosition())
+    print("pruneHistory tempNode ", tempNode.getPosition())
+
+    tempNode = actions.pop()    
+    print("HERE")
+
+    # nodePos = node.getPosition()
+    # tempNodePos = tempNode.getPosition()
+    
+
+    while tempNode.getPosition() != node.getPosition():
+        print("in while")
+        print("tempNode is ", tempNode.getPosition())
+        tempNode = actions.pop()
+
+    actions.append(tempNode)
+
+    print("not implemented pruneHistory yet")
+    #end pruneHistory
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
