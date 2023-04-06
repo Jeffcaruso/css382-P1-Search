@@ -88,300 +88,35 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
-    fringe = util.Stack() #intalize stack (probably holding successors)
-    actions = [] #store path of actions done to get to goal
-    #maybe we'll need to keep pervious nodes? visted 
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+    fringe = util.Stack()
 
-    "Order for direction selection N, E, S, W"
-    'problem.g'
-
-    ## So, in the end, we will need to be constructing this.
-    # So we will ask where can we go,
-    # is it not visited yet?
-    # go there, update items, add directions to the list.
-    # initial testing
-    #set the intial state
-    #set intial position 
-
-    from game import Directions
-    s = Directions.SOUTH
-    w = Directions.WEST
-    e = Directions.EAST
-    n = Directions.NORTH
-
-    #making a agent 'pointer
-    from game import GameStateData
-    
-
-    from game import Configuration
-    from game import Actions
-    # import game
-    # localConfig = game.Configuration()
-    #Configuration localConfig = Configuration()
-
-    # #step 1 build directions
-    # # South
-    # a = 0
-    # b = -1
-    # vectorS = a,b
-    # # North
-    # a = 0
-    # b = -1
-    # vectorN = a,b
-    # # East
-    # a = 1
-    # b = 0
-    # vectorE = a,b
-
-    # # West
-    # a = -1
-    # b = 0
-    # vectorW= a,b
-
-    # visited = [(5,5)]
-
-    # #stack is 'fringe'
-    # #push the start of the stack  (starting position) (push starting configuration)
-    # #act = Actions.vectorToDirection(vectorS) #WorkOnLater()
-    
-    # ###probably need to do something here like pushing on the first round of items
-    # act = None
-    # startState = problem.getStartState() #starting state 
-    # localCon = Configuration(startState, act) #WorkOnLater (dynamic config start location)
-    # # get possible paths
-    # options = problem.getSuccessors(localCon.getPosition()) # [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
-    
-    # for coor,dir,cost in options:
-    #     print("in for loop ",coor, dir, cost)
-    #     localCon = Configuration(coor , dir)
-    #     if (visited.__contains__(localCon.getPosition())):
-    #         print("already visited") # shouldn't hit this...
-    #     else:
-    #         #push onto stack
-    #         # visited.append(localCon.getPosition())
-    #         print(localCon.direction)
-    #         fringe.push(localCon)            
-    #     #end of for loop
-
-    # visited.append(startState)
-    # localCon = fringe.pop()
-    # visited.append(localCon.getPosition())
-    # actions.append(localCon.getDirection()) 
-    # if problem.isGoalState(localCon.getPosition()): # if the intial state is the goal state 
-    #     return actions 
-    
-    # for coor,dir,cost in options:
-    #     print("in for loop ",coor, dir, cost)
-    #     localCon = Configuration(coor , dir)
-    #     if (visited.__contains__(localCon.getPosition())):
-    #         print("already visited")
-    #         actions.pop() 
-    #         #actions.remove()
-    #     else:
-    #         #push onto stack
-    #         # visited.append(localCon.getPosition())
-    #         fringe.push(localCon)
-
-
-
-    
-
-    # #print(fringe.pop())
-    # #print(fringe.pop())
-    # print("before starting while loop")
-
-    # #fringe.push(localCon) # pushing on starting position
-    # #move from that...
-    # while not fringe.isEmpty():    ##somewhere near the start, need to check if we have left the destination
-    #     localCon = fringe.pop()
-    #     print(localCon.getPosition())
-    #     #if checks if its been visited 
-    #         # add position to visited  if has not been visited 
-    #     visited.append(localCon.getPosition())
-    #     actions.append(localCon.getDirection()) #change this to add
-    #     if problem.isGoalState(localCon.getPosition()):
-    #         print(actions)
-    #         return actions 
-            
-    #     import time
-    #     time.sleep(1)
-    #     # get possible paths
-    #     options = problem.getSuccessors(localCon.getPosition()) # [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
-    #     print("options:", problem.getSuccessors(localCon.getPosition()))
-        
-    #     for coor,dir,cost in options:
-    #         print("in for loop ",coor, dir, cost)
-    #         localCon = Configuration(coor , dir)
-    #         if (visited.__contains__(localCon.getPosition())):
-    #             print("already visited")
-    #             actions.pop() 
-    #             #actions.remove()
-    #         else:
-    #             #push onto stack
-    #             # visited.append(localCon.getPosition())
-    #             fringe.push(localCon)
-            
-    #         #end of for loop
-    
-    
-
-    """
-    act = Actions.vectorToDirection(vectorS)
-
-    print(act)
-
-    localCon = Configuration((5,5), act)
-
-    print(localCon.getPosition())
-
-    localCon = localCon.generateSuccessor(vectorS)
-    print(localCon.generateSuccessor(vectorS))
-
-    print(problem.getSuccessors(localCon.getPosition()))
-
-    print(localCon.getPosition())
-    
-    actions.append(s)
-    actions.append(s)
-    actions.append(w)
-    """
-
-    # maybe will not need to track visited coordinates becuase of using stack for DFS
-
-    # return  [s, s, w, s, w, w, s, w]
-    
-    """Pseudocode
-    function graphSearch saerch()
-        closed <- an empty set (visited)
-        fringe <- INSERT(MAKE-NODE(INITIAL-STATE[problem],fringe))
-        loop do
-            if fringe is empty then return failure 
-            node <-REMOVE-FRONT(fringe)
-            if GOAL-TEST(problem,STATE[node])then return node
-            if STATE[node] is not in closed then 
-                add STATE[node] to closed 
-                for child in EXPAND(state[node], problem) do
-                    fringe.insert(childnode,fringe)
-    /pseudocode
-    """
     visited = []
-    startState = problem.getStartState() 
-    localCon = Configuration(startState, None) #effectively node later...
-    firstTime = True
-
-    fringe.push(localCon)
-    import time
-
-
-    #history handling vars
-    pastNode = localCon
-    #position = None
-    x = 0
-    y = 0
-
-
-    while not fringe.isEmpty():
-        time.sleep(1)
-        node = fringe.pop() #list [((5, 4), 'South', 1), ((4, 5), 'West', 1)]
-        if not firstTime:
-            actions.append(node)
-            print(node.getDirection())
-        firstTime = False
-        if problem.isGoalState(node.getPosition()):
-            # print(actions)
-            for item in actions:
-                print(item.getPosition(), " and go ", item.getDirection()) 
-            return actions 
-        # print(node.getPosition())
-        if  node.getPosition() not in visited: #(visited.__contains__(localCon.getPosition())
-            print(node.getPosition())
-            visited.append(node.getPosition())
-            # get options   
-            options = problem.getSuccessors(node.getPosition())
-            for coor,dir,cost in options:
-                #work
-                node = Configuration(coor,dir)
-                fringe.push(node)
-        
-        #history handling (path reporting help)
-        position = pastNode.getPosition()
-        x = position[0]
-        y = position[1]
-
-        position = node.getPosition()
-        curX = position[0]
-        curY = position[1]
-        
-        tempNode = Configuration((1,1),'North')
-
-        if(abs(curX - x) > 1 | abs(curY - y) > 1):
-            #always illegal move, need to cut history
-            print("No teleporting")
-            node = fringe.pop()
-            pruneHistory(node,tempNode,actions)
-
-        if(abs(curX - x) == 1 & abs(curY - y) == 1):
-            #always illegal move, need to cut history
-            print("No teleporting")
-            node = fringe.pop()
-            pruneHistory(node,tempNode, actions)
-
-
-        # if(pastNode.getPosition()):
-        #     print("nope")
-            #end if
-        pastNode = node
-        #end while
-
-
-    # for item in actions:
-    #     print(item.getPosition(), " and go ", item.getDirection()) 
-
-
-    return actions
-
-
-    # problem.applyAction(problem.getStartState(), problem.getAction())
-
-    """
-    Plan:
-    1) Figure out how to move at all (applyaction?)
-        - Determine what exactly action and movement vector are??
-    2) Look into the stack implentation in util
-    3) Code the DFS implementations
+    confi = problem.getStartState()
     
-    """
+    # didAnything = False# # # # 
+    initialState = (confi,[],0)
+    fringe.push(initialState)
 
-    #return actions 
-    util.raiseNotDefined()
+    while not fringe.isEmpty():        
+        state , path, cost = fringe.pop()
+        #visited.append(state)
+        if(problem.isGoalState(state)):
+            #done
+            return path
 
+        print("here")
+        print(state, path, cost)
 
+        options = problem.getSuccessors(state)
+        print(options)
+        visited.append(state)
 
-def pruneHistory(node, tempNode, actions):
-    # pop off items until item removed is equal to node, then push it back on
-    from game import Configuration
-    print("pruneHistory node ", node.getPosition())
-    print("pruneHistory tempNode ", tempNode.getPosition())
+        for child , action, cost in options:
+            if child not in visited:                
+                testing = (child, path + [action] , cost)
+                fringe.push(testing)
 
-    tempNode = actions.pop()    
-    print("HERE")
-
-    # nodePos = node.getPosition()
-    # tempNodePos = tempNode.getPosition()
-    
-
-    while tempNode.getPosition() != node.getPosition():
-        print("in while")
-        print("tempNode is ", tempNode.getPosition())
-        tempNode = actions.pop()
-
-    actions.append(tempNode)
-
-    print("not implemented pruneHistory yet")
-    #end pruneHistory
+    #util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
