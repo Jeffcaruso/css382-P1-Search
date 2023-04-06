@@ -126,7 +126,7 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-     #fringe holding potential options
+    #fringe holding potential options
     fringe = util.Queue()
 
     #set of visited places
@@ -159,12 +159,44 @@ def breadthFirstSearch(problem):
                 #save
                 fringe.push(testing)
     #end of DFS
-    util.raiseNotDefined()
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    #fringe holding potential options
+    fringe = util.PriorityQueue()
+
+    #set of visited places
+    visited = []
+    
+    #coordinates positions
+    confi = problem.getStartState()
+    
+    #building and placing starting location on the fringe
+    initialState = (confi,[],0)
+    fringe.push(initialState, 0)
+    
+    while not fringe.isEmpty():      
+        #get top of fringe  
+        state, path, cost = fringe.pop()
+        if(problem.isGoalState(state)):
+            #reached destination, return path
+            return path
+            
+        #optain possible options where it can go 
+        options = problem.getSuccessors(state)
+        #mark state as visited (one that says where we can go)
+        visited.append(state) 
+        
+        for child, action, cost in options:
+            #for each possible direction (options)
+            if child not in visited:   
+                #if coordinates (child) aren't visited             
+                testing = (child, path + [action] , cost)
+                #save
+                fringe.push(testing,cost)
+    
+    #end of UCS   
 
 def nullHeuristic(state, problem=None):
     """
