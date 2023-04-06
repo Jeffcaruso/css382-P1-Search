@@ -203,12 +203,72 @@ def nullHeuristic(state, problem=None):
     A heuristic function estimates the cost from the current state to the nearest
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
+
     return 0
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    #fringe holding potential options
+    fringe = util.PriorityQueue()
+
+    #set of visited places
+    visited = []
+    
+    #coordinates positions
+    confi = problem.getStartState()
+    
+    #building and placing starting location on the fringe
+    initialState = (confi,[],0)
+    fringe.push(initialState, 0)
+    
+    while not fringe.isEmpty():      
+        #get top of fringe  
+        state, path, cost = fringe.pop()
+        #print(heuristic)
+        if(problem.isGoalState(state)):
+            #reached destination, return path
+            return path
+            
+        #optain possible options where it can go 
+        options = problem.getSuccessors(state)
+        #mark state as visited (one that says where we can go)
+        visited.append(state) 
+        
+        for child, action, cost in options:
+            #for each possible direction (options)
+            if child not in visited:   
+                #if coordinates (child) aren't visited
+                # import manhattanHeuristic from searchAgents
+                # from searchAgents import manhattanHeuristic
+
+                #h = 1
+                #hCost = manhattanHeuristic(child, problem)
+                print(heuristic)
+                #hCost = getHeuristicCost(child,problem, heuristic)
+                hCost = heuristic(child,problem)
+                #cost += test
+                testing = (child, path + [action] , cost) #cost + test? 
+                #but then cost has previous?
+                #save
+                fringe.push(testing,cost + hCost)
+    
+    #end of AStar   
+
+# def getHeuristicCost(child, problem, heuristic):
+#     from searchAgents import manhattanHeuristic,euclideanHeuristic,cornersHeuristic
+#     Hcost = 1
+#     print(heuristic)
+#     if heuristic == "manhattanHeuristic":
+#         Hcost = manhattanHeuristic(child,problem)
+#         print(Hcost)
+#     elif heuristic == "euclideanHeuristic":
+#         Hcost = euclideanHeuristic(child,problem)
+#     elif heuristic == "cornersHeuristic":
+#         Hcost = cornersHeuristic(child,problem)
+#
+#     #print(Hcost)
+#     return Hcost
 
 
 # Abbreviations
