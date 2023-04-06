@@ -238,12 +238,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         for child, action, cost in options:
             #for each possible direction (options)
             if child not in visited:   
-                #if coordinates (child) aren't visited
-                # import manhattanHeuristic from searchAgents
-                # from searchAgents import manhattanHeuristic
-
-                #h = 1
-                #hCost = manhattanHeuristic(child, problem)
                 print(heuristic)
                 #hCost = getHeuristicCost(child,problem, heuristic)
                 hCost = heuristic(child,problem)
