@@ -88,39 +88,77 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
+    #fringe holding potential options
     fringe = util.Stack()
 
+    #set of visited places
     visited = []
+    
+    #coordinates positions
     confi = problem.getStartState()
     
-    # didAnything = False# # # # 
+    #building and placing starting location on the fringe
     initialState = (confi,[],0)
     fringe.push(initialState)
-
-    while not fringe.isEmpty():        
-        state , path, cost = fringe.pop()
-        #visited.append(state)
+    
+    while not fringe.isEmpty():      
+        #get top of fringe  
+        state, path, cost = fringe.pop()
         if(problem.isGoalState(state)):
-            #done
+            #reached destination, return path
             return path
-
-        print("here")
-        print(state, path, cost)
-
+            
+        #optain possible options where it can go 
         options = problem.getSuccessors(state)
-        print(options)
-        visited.append(state)
-
-        for child , action, cost in options:
-            if child not in visited:                
+        #mark state as visited (one that says where we can go)
+        visited.append(state) 
+        
+        for child, action, cost in options:
+            #for each possible direction (options)
+            if child not in visited:   
+                #if coordinates (child) aren't visited             
                 testing = (child, path + [action] , cost)
+                #save
                 fringe.push(testing)
-
-    #util.raiseNotDefined()
+    #end of DFS
+    
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+     #fringe holding potential options
+    fringe = util.Queue()
+
+    #set of visited places
+    visited = []
+    
+    #coordinates positions
+    confi = problem.getStartState()
+    
+    #building and placing starting location on the fringe
+    initialState = (confi,[],0)
+    fringe.push(initialState)
+    
+    while not fringe.isEmpty():      
+        #get top of fringe  
+        state, path, cost = fringe.pop()
+        if(problem.isGoalState(state)):
+            #reached destination, return path
+            return path
+            
+        #optain possible options where it can go 
+        options = problem.getSuccessors(state)
+        #mark state as visited (one that says where we can go)
+        visited.append(state) 
+        
+        for child, action, cost in options:
+            #for each possible direction (options)
+            if child not in visited:   
+                #if coordinates (child) aren't visited             
+                testing = (child, path + [action] , cost)
+                #save
+                fringe.push(testing)
+    #end of DFS
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
