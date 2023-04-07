@@ -185,18 +185,28 @@ def uniformCostSearch(problem):
             #reached destination, return path
             return path
             
+        # #optain possible options where it can go 
+        # options = problem.getSuccessors(state)
+        # #mark state as visited (one that says where we can go)
+        # visited.append(state) 
         #optain possible options where it can go 
-        options = problem.getSuccessors(state)
-        #mark state as visited (one that says where we can go)
-        visited.append(state) 
+        if state not in visited:
+            options = problem.getSuccessors(state)
+            visited.append(state)  #state?
+        else:
+            options = []
         
+        prevCost = 0
         for child, action, cost in options:
             #for each possible direction (options)
             if child not in visited:   
-                #if coordinates (child) aren't visited             
-                testing = (child, path + [action] , cost)
+                #if coordinates (child) aren't visited            
+                # if(prevCost < cost):
+                #     cost = prevCost
+                testing = (child, path + [action] ,cost) #cost
                 #save
-                fringe.push(testing,cost)
+                fringe.push(testing, cost)
+                prevCost = cost
     
     #end of UCS   
 
@@ -233,9 +243,14 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             return path
             
         #optain possible options where it can go 
-        options = problem.getSuccessors(state)
-        #mark state as visited (one that says where we can go)
-        visited.append(state) 
+        # options = problem.getSuccessors(state)
+        # #mark state as visited (one that says where we can go)
+        # visited.append(state) 
+        if state not in visited:
+            options = problem.getSuccessors(state)
+            visited.append(state)  #state?
+        else:
+            options = []
         
         for child, action, cost in options:
             #for each possible direction (options)
