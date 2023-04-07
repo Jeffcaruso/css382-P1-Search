@@ -143,13 +143,15 @@ def breadthFirstSearch(problem):
         #get top of fringe  
         state, path, cost = fringe.pop()
         if(problem.isGoalState(state)):
-            #reached destination, return path
             return path
             
         #optain possible options where it can go 
-        options = problem.getSuccessors(state)
+        if state not in visited:
+            options = problem.getSuccessors(state)
+            visited.append(state)  #state?
+        else:
+            options = []
         #mark state as visited (one that says where we can go)
-        visited.append(state) 
         
         for child, action, cost in options:
             #for each possible direction (options)
@@ -238,7 +240,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         for child, action, cost in options:
             #for each possible direction (options)
             if child not in visited:   
-                print(heuristic)
+                #print(heuristic)
                 #hCost = getHeuristicCost(child,problem, heuristic)
                 hCost = heuristic(child,problem)
                 #cost += test
