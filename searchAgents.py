@@ -272,6 +272,7 @@ class CornersProblem(search.SearchProblem):
 
     You must select a suitable state space and successor function
     """
+    
 
     def __init__(self, startingGameState):
         """
@@ -288,6 +289,14 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
+        print(self.startingPosition)
+        coord = self.startingPosition
+        self.startX = coord[0]
+        self.startY = coord[1]
+        
+        self.x = self.startX 
+        self.y = self.startY
+        
 
     def getStartState(self):
         """
@@ -295,14 +304,38 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+
+        #items we need to include
+        # 
+
+
+        return self.startingPosition
+        #return (startX, StartY)       
+        #return (self.startX , self.startY)
+        #util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        # print(self.corners)
+        # print(self.corners[0])
+        # print(self.corners[1])
+        #for (int i = 0; )
+        # for i in range(len(self.corners)):
+        #     print(self.corners[i])
+        print("state:", state)
+        self.x = state[0]
+        self.y = state[1]
+        for corner in self.corners:
+            #compare to current position
+            if (self.x == corner[0])  & (self.y == corner[1]):
+                return True
+            #end for
+
+        #print("reach end of is goal state FN")
+        return False
 
     def getSuccessors(self, state):
         """
@@ -315,18 +348,27 @@ class CornersProblem(search.SearchProblem):
             is the incremental cost of expanding to that successor
         """
 
+        #print("in sucessors...")
+
+        #ToDo:
+        # get successors -> should finish Q5
+        # Move from there
+
+
         successors = []
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
             #   x,y = currentPosition
-            #   dx, dy = Actions.directionToVector(action)
-            #   nextx, nexty = int(x + dx), int(y + dy)
-            #   hitsWall = self.walls[nextx][nexty]
+            x,y = self.x,self.y
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
 
         self._expanded += 1 # DO NOT CHANGE
+        print("in sucessors...")
         return successors
 
     def getCostOfActions(self, actions):
