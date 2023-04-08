@@ -467,8 +467,129 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
+    # manhattanHeuristic(state,problem)
+    # "The Manhattan distance heuristic for a PositionSearchProblem"
+    # xy1 = position
+    # xy2 = problem.goal
+    # return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+    print("Starting in cornersHeuristic")
+    #print(state)
+    #print(problem)
+
+
+######## initial appproach with all corners (no vistied logic)####
+#     xy1 = state[0]
+#     #print(xy1)
+#     xy2 = problem.corners
+#     #print(xy2)
+#     #return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+
+#     HValues = []
+
+#     for xy2 in problem.corners:
+#         #print(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
+#         HValues.append((abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])) *2.5 )  #1.3 - 1938 #1.5 - 1912
+#         #HValues.append((xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2  * 0.5)        
+#     return min(HValues)
+# ############################
+
+
+######### approach of visiting corners
+#     xy1 = state[0]
+#     #print(xy1)
+#     xy2 = problem.corners
+    
+#     HValues = []
+#     visited = state[1] 
+#     print(visited)
+
+#     for xy2 in problem.corners:
+#         if xy2 not in visited:
+#             #print("here")
+#             HValues.append((abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])) *1)  #1.3 - 1938 #1.5 - 1912
+#             # visited.append()
+# #         #print(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
+# #         HValues.append((abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])) *2.5 )  #1.3 - 1938 #1.5 - 1912
+# #         #HValues.append((xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2  * 0.5)  
+
+
+#     if(len(HValues) == 0):
+#         return 0
+#     return min(HValues)
+#########################
+
+
+##### This one had great node expansion #, but autograder was mad,
+## "*** FAIL: Heuristic resulted in expansion of 1220 nodes" - autograder 2023 ##
+    xy1 = state[0]
+    #print(xy1)
+    xy2 = problem.corners
+    visited = state[1] 
+    HValues = []
+    heuristic = 0
+    closestDistance = 99999
+    xy9 = state[0]
+
+    cToDelete = state[0]
+
+    #corners not yet visited is all corners - corners that have been visited 
+    notVisitedCorners = list(set(corners) - set(state[1]))
+
+    while len(notVisitedCorners) > 0: #while there are still not visited corners
+        # find corner shortest manhattan dist away
+        for c in notVisitedCorners: #check non visited corners
+            #distance for given corner
+            d = util.manhattanDistance(xy1,c) 
+            if(d < closestDistance):
+                #update to lowest distance for this round
+                closestDistance = d
+                cToDelete = c
+                print("spacer")
+        
+        ### management
+        heuristic += closestDistance #update hueristic to shortest distance
+        notVisitedCorners.remove(cToDelete) # the node is now visited so remove from not visited
+        xy1 = c #move to that corner so we can do the rest of the route
+
+        print("end")
+
+
+    return heuristic
+
+
+
+
+    # for c in corners:
+    #     if c not in visited:
+    #         notVisitedCorners.append(c)
+
+    # for c in notVisitedCorners:
+    #     while c not in visited:
+    #         d = util.manhattanDistance(state[0],c) #get the distance
+    #         if d < closestDistance: #get shortest distance
+    #             closestDistance = d
+    #             xy9 = c
+
+    #         heuristic += closestDistance #
+    #         # remove from notvisitedcorners
+    #         notVisitedCorners.remove(c)
+    #         #set position(state) to be the corner we just removed.
+    #         xy1 = c
+    #         visited.append(c)
+    #         print("spacer")
+    # return heuristic
+    # if (len(HValues) == 0):
+    #     return 0
+    # return min(HValues)
+
+
+
+
+
+
+
     "*** YOUR CODE HERE ***"
-    return 0 # Default to trivial solution
+    # return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
