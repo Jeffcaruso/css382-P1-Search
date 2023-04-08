@@ -289,14 +289,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        print(self.startingPosition)
-        # coord = self.startingPosition
-        # self.startX = coord[0]
-        # self.startY = coord[1]
-        # self.visitedGoals = []
-        
-        # self.x = self.startX 
-        # self.y = self.startY
+        #print(self.startingPosition)
         
 
     def getStartState(self):
@@ -305,12 +298,7 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-
-
         return (self.startingPosition, [])
-        #return (startX, StartY)       
-        #return (self.startX , self.startY)
-        #util.raiseNotDefined()
 
     def isGoalState(self, state):
         """
@@ -322,65 +310,8 @@ class CornersProblem(search.SearchProblem):
 
         # if state[1] (visited) has same as self.corners (the 4 corners we are visiting)
         if(set(state[1]) == set(self.corners)):
-            #indicate so it is easier to find later
-            #print("testing: True here!")
             # return true, all corners have been found
             return True
-        return False
-
-
-
-
-        # currPos = state[0]
-        # visted = state[1]
-        # for corner in self.corners:
-        #     #compare to current position 
-        #     if (currPos == corner): #(5,1)  (5,1)
-        #         if (currPos in visted):
-        #             visted.append(currPos)
-        #             return False 
-
-        # return True 
-
-        # visited = state[1]
-
-        # for corner in self.corners:
-        #     if visited != corner:
-        #         return False
-        # return True
-
-        ##here?
-        #return set(state[1]) == set(self.corners)
-
-        # print(self.corners)
-        # print(self.corners[0])
-        # print(self.corners[1])
-        #for (int i = 0; )
-        # for i in range(len(self.corners)):
-        #     print(self.corners[i])
-
-        # self.x = state[0]
-        # self.y = state[1]
-
-        # currPos = state[0]
-        # visted = state[1]
-        # for corner in self.corners:
-        #     #compare to current position 
-        #     if (currPos == corner): #(5,1)  (5,1)
-        #         if (currPos not in visted):
-        #             visted.append(currPos)
-        #             return True  
-
-        # for corner in self.corners:
-        #     #compare to current position 
-        #     if (currPos == corner): 
-        #         self.visitedGoals.append(currPos)
-        #         return True    
-
-                 
-            #end for
-
-        #print("reach end of is goal state FN")
         return False
 
     def getSuccessors(self, state):
@@ -394,21 +325,12 @@ class CornersProblem(search.SearchProblem):
             is the incremental cost of expanding to that successor
         """
 
-        #print("in sucessors...")
-
-#         #ToDo:
-#         # get successors -> should finish Q5
-#         # Move from there
-
-
         successors = []
         for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
-            #   x,y = currentPosition
-            # print(state[0])
+    
             x,y = state[0]
-            # print(state[0])
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
@@ -417,23 +339,11 @@ class CornersProblem(search.SearchProblem):
             if not hitsWall: #if not at a wall
                 nextPos = (nextx, nexty)
                 # visited = state[1]
-                # cost will always be 1
-                nextCorner = list(state[1])
-
+                nextCorner = list(visited) #same as state[1]
                 if(nextPos in self.corners) and (nextPos not in visited): 
-                    #visited.append(nextPos)
                     nextCorner.append(nextPos)
-                    # print("near corner")
-                #successors.append(((nextPos,visited),action,1))
-                successors.append(((nextPos,nextCorner),action,1))
-                
-                #might have to store visted corners in list ?
-                #check if the nextPost in a self.corner and not in a visite corner
-                # successors.append( (nextPos,list(visted)), action, 1) ) cost might be 1 in this case and a
+                successors.append(((nextPos,nextCorner),action,1))      
         self._expanded += 1 # DO NOT CHANGE
-        #print("in sucessors...")
-        
-
         return successors
 
 
@@ -464,10 +374,11 @@ def cornersHeuristic(state, problem):
     shortest path from the state to a goal of the problem; i.e.  it should be
     admissible (as well as consistent).
     """
+    "*** YOUR CODE HERE ***"
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
-    xy1 = state[0]
+    curPos = state[0]
     #print(xy1)
     #xy2 = problem.corners
     visited = state[1] 
@@ -479,13 +390,13 @@ def cornersHeuristic(state, problem):
     cToDelete = state[0]
 
     #corners not yet visited is all corners - corners that have been visited 
-    notVisitedCorners = list(set(corners) - set(state[1]))
+    notVisitedCorners = list(set(corners) - set(visited))
 
     while len(notVisitedCorners) > 0: #while there are still not visited corners
         # find corner shortest manhattan dist away
         for c in notVisitedCorners: #check non visited corners
             #distance for given corner
-            d = util.manhattanDistance(xy1,c) 
+            d = util.manhattanDistance(curPos,c) 
             if(d < closestDistance):
                 #update to lowest distance for this round
                 closestDistance = d
@@ -495,12 +406,9 @@ def cornersHeuristic(state, problem):
         heuristic += closestDistance #update hueristic to shortest distance
         closestDistance = 99999
         notVisitedCorners.remove(cToDelete) # the node is now visited so remove from not visited
-        xy1 = cToDelete #move to that corner so we can do the rest of the route (remembering to use cToDelete (and not c))
+        curPos = cToDelete #move to that corner so we can do the rest of the route (remembering to use cToDelete (and not c))
     return heuristic
 
-
-
-    "*** YOUR CODE HERE ***"
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
