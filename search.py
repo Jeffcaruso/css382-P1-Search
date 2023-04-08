@@ -117,9 +117,9 @@ def depthFirstSearch(problem):
             #for each possible direction (options)
             if child not in visited:   
                 #if coordinates (child) aren't visited             
-                testing = (child, path + [action] , cost)
+                node = (child, path + [action] , cost)
                 #save
-                fringe.push(testing)
+                fringe.push(node)
     #end of DFS
     
 
@@ -157,9 +157,9 @@ def breadthFirstSearch(problem):
             #for each possible direction (options)
             if child not in visited:   
                 #if coordinates (child) aren't visited             
-                testing = (child, path + [action] , cost)
+                node = (child, path + [action] , cost)
                 #save
-                fringe.push(testing)
+                fringe.push(node)
     #end of DFS
 
 def uniformCostSearch(problem):
@@ -180,23 +180,14 @@ def uniformCostSearch(problem):
     
     while not fringe.isEmpty():      
         #get top of fringe  
-        #force reheap?
-        # fringe.update(((1,1),"",-999),-999)
-        # fringe.pop()
-        #/force reheap?
-        
         state, path, TrueCost = fringe.pop()
         #print("my output popping",state, path, TrueCost)
 
         if(problem.isGoalState(state)):
             #reached destination, return path
             return path
-            
-        # #optain possible options where it can go 
-        # options = problem.getSuccessors(state)
-        # #mark state as visited (one that says where we can go)
-        # visited.append(state) 
-        #optain possible options where it can go 
+       
+        #obtain possible options where it can go 
         if state not in visited:
             options = problem.getSuccessors(state)
             visited.append(state)  #state?
@@ -205,11 +196,9 @@ def uniformCostSearch(problem):
         
         for child, action, cost in options:
             #print("my output pushing",child, path + [action], cost + TrueCost)
-            testing = (child, path + [action] ,cost + TrueCost) #cost
+            node = (child, path + [action] ,cost + TrueCost) #cost
             #save
-            fringe.push(testing, TrueCost + cost)
-            #fringe.update(testing, cost + 1)
-            #fringe.update()
+            fringe.push(node, TrueCost + cost)
 
             #for each possible direction (options)
             # if child not in visited:   
@@ -244,24 +233,21 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     visited = []
     
     #coordinates positions
-    confi = problem.getStartState()
+    initialConfig = problem.getStartState()
     
     #building and placing starting location on the fringe
-    initialState = (confi,[],0)
+    initialState = (initialConfig,[],0)
     fringe.push(initialState, 0)
     
     while not fringe.isEmpty():      
         #get top of fringe  
         state, path, TrueCost = fringe.pop()
-        #print(heuristic)
+
         if(problem.isGoalState(state)):
             #reached destination, return path
             return path
             
         #optain possible options where it can go 
-        # options = problem.getSuccessors(state)
-        # #mark state as visited (one that says where we can go)
-        # visited.append(state) 
         if state not in visited:
             options = problem.getSuccessors(state)
             visited.append(state)  #state?
@@ -282,43 +268,11 @@ def aStarSearch(problem, heuristic=nullHeuristic):
 
         for child, action, cost in options:
             #for each possible direction (options)  
-            #print(heuristic)
-            #hCost = getHeuristicCost(child,problem, heuristic)
             hCost = heuristic(child,problem)
-            #cost += test
-            testing = (child, path + [action] , TrueCost + cost) #cost + test? 
-            #but then cost has previous?
-            #save
+            node = (child, path + [action] , TrueCost + cost) #cost + test? 
             #True cost = cost from fringe from before...
-            fringe.push(testing, TrueCost + cost + hCost)
-
-
-            #     for child, action, cost in options:
-            # #print("my output pushing",child, path + [action], cost + TrueCost)
-            # testing = (child, path + [action] ,cost + TrueCost) #cost
-            # #save
-            # fringe.push(testing, TrueCost + cost)
-
-
-
-
-    
+            fringe.push(node, TrueCost + cost + hCost)
     #end of AStar   
-
-# def getHeuristicCost(child, problem, heuristic):
-#     from searchAgents import manhattanHeuristic,euclideanHeuristic,cornersHeuristic
-#     Hcost = 1
-#     print(heuristic)
-#     if heuristic == "manhattanHeuristic":
-#         Hcost = manhattanHeuristic(child,problem)
-#         print(Hcost)
-#     elif heuristic == "euclideanHeuristic":
-#         Hcost = euclideanHeuristic(child,problem)
-#     elif heuristic == "cornersHeuristic":
-#         Hcost = cornersHeuristic(child,problem)
-#
-#     #print(Hcost)
-#     return Hcost
 
 
 # Abbreviations
