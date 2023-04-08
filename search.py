@@ -203,7 +203,6 @@ def uniformCostSearch(problem):
         else:
             options = []
         
-        prevCost = 0
         for child, action, cost in options:
             #print("my output pushing",child, path + [action], cost + TrueCost)
             testing = (child, path + [action] ,cost + TrueCost) #cost
@@ -253,7 +252,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     
     while not fringe.isEmpty():      
         #get top of fringe  
-        state, path, cost = fringe.pop()
+        state, path, TrueCost = fringe.pop()
         #print(heuristic)
         if(problem.isGoalState(state)):
             #reached destination, return path
@@ -269,17 +268,40 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         else:
             options = []
         
+        # for child, action, cost in options:
+        #     #for each possible direction (options)
+        #     if child not in visited:   
+        #         #print(heuristic)
+        #         #hCost = getHeuristicCost(child,problem, heuristic)
+        #         hCost = heuristic(child,problem)
+        #         #cost += test
+        #         testing = (child, path + [action] , cost) #cost + test? 
+        #         #but then cost has previous?
+        #         #save
+        #         fringe.push(testing,cost + hCost)
+
         for child, action, cost in options:
-            #for each possible direction (options)
-            if child not in visited:   
-                #print(heuristic)
-                #hCost = getHeuristicCost(child,problem, heuristic)
-                hCost = heuristic(child,problem)
-                #cost += test
-                testing = (child, path + [action] , cost) #cost + test? 
-                #but then cost has previous?
-                #save
-                fringe.push(testing,cost + hCost)
+            #for each possible direction (options)  
+            #print(heuristic)
+            #hCost = getHeuristicCost(child,problem, heuristic)
+            hCost = heuristic(child,problem)
+            #cost += test
+            testing = (child, path + [action] , TrueCost + cost) #cost + test? 
+            #but then cost has previous?
+            #save
+            #True cost = cost from fringe from before...
+            fringe.push(testing, TrueCost + cost + hCost)
+
+
+            #     for child, action, cost in options:
+            # #print("my output pushing",child, path + [action], cost + TrueCost)
+            # testing = (child, path + [action] ,cost + TrueCost) #cost
+            # #save
+            # fringe.push(testing, TrueCost + cost)
+
+
+
+
     
     #end of AStar   
 
