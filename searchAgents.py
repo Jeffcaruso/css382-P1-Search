@@ -323,7 +323,7 @@ class CornersProblem(search.SearchProblem):
         # if state[1] (visited) has same as self.corners (the 4 corners we are visiting)
         if(set(state[1]) == set(self.corners)):
             #indicate so it is easier to find later
-            print("testing: True here!")
+            #print("testing: True here!")
             # return true, all corners have been found
             return True
         return False
@@ -423,7 +423,7 @@ class CornersProblem(search.SearchProblem):
                 if(nextPos in self.corners) and (nextPos not in visited): 
                     #visited.append(nextPos)
                     nextCorner.append(nextPos)
-                    print("near corner")
+                    # print("near corner")
                 #successors.append(((nextPos,visited),action,1))
                 successors.append(((nextPos,nextCorner),action,1))
                 
@@ -467,68 +467,14 @@ def cornersHeuristic(state, problem):
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
-    # manhattanHeuristic(state,problem)
-    # "The Manhattan distance heuristic for a PositionSearchProblem"
-    # xy1 = position
-    # xy2 = problem.goal
-    # return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-    print("Starting in cornersHeuristic")
-    #print(state)
-    #print(problem)
-
-
-######## initial appproach with all corners (no vistied logic)####
-#     xy1 = state[0]
-#     #print(xy1)
-#     xy2 = problem.corners
-#     #print(xy2)
-#     #return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-
-#     HValues = []
-
-#     for xy2 in problem.corners:
-#         #print(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
-#         HValues.append((abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])) *2.5 )  #1.3 - 1938 #1.5 - 1912
-#         #HValues.append((xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2  * 0.5)        
-#     return min(HValues)
-# ############################
-
-
-######### approach of visiting corners
-#     xy1 = state[0]
-#     #print(xy1)
-#     xy2 = problem.corners
-    
-#     HValues = []
-#     visited = state[1] 
-#     print(visited)
-
-#     for xy2 in problem.corners:
-#         if xy2 not in visited:
-#             #print("here")
-#             HValues.append((abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])) *1)  #1.3 - 1938 #1.5 - 1912
-#             # visited.append()
-# #         #print(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
-# #         HValues.append((abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])) *2.5 )  #1.3 - 1938 #1.5 - 1912
-# #         #HValues.append((xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2  * 0.5)  
-
-
-#     if(len(HValues) == 0):
-#         return 0
-#     return min(HValues)
-#########################
-
-
-##### This one had great node expansion #, but autograder was mad,
-## "*** FAIL: Heuristic resulted in expansion of 1220 nodes" - autograder 2023 ##
     xy1 = state[0]
     #print(xy1)
-    xy2 = problem.corners
+    #xy2 = problem.corners
     visited = state[1] 
-    HValues = []
+    #HValues = []
     heuristic = 0
     closestDistance = 99999
-    xy9 = state[0]
+    #xy9 = state[0]
 
     cToDelete = state[0]
 
@@ -544,52 +490,17 @@ def cornersHeuristic(state, problem):
                 #update to lowest distance for this round
                 closestDistance = d
                 cToDelete = c
-                print("spacer")
         
         ### management
         heuristic += closestDistance #update hueristic to shortest distance
+        closestDistance = 99999
         notVisitedCorners.remove(cToDelete) # the node is now visited so remove from not visited
-        xy1 = c #move to that corner so we can do the rest of the route
-
-        print("end")
-
-
+        xy1 = cToDelete #move to that corner so we can do the rest of the route (remembering to use cToDelete (and not c))
     return heuristic
 
 
 
-
-    # for c in corners:
-    #     if c not in visited:
-    #         notVisitedCorners.append(c)
-
-    # for c in notVisitedCorners:
-    #     while c not in visited:
-    #         d = util.manhattanDistance(state[0],c) #get the distance
-    #         if d < closestDistance: #get shortest distance
-    #             closestDistance = d
-    #             xy9 = c
-
-    #         heuristic += closestDistance #
-    #         # remove from notvisitedcorners
-    #         notVisitedCorners.remove(c)
-    #         #set position(state) to be the corner we just removed.
-    #         xy1 = c
-    #         visited.append(c)
-    #         print("spacer")
-    # return heuristic
-    # if (len(HValues) == 0):
-    #     return 0
-    # return min(HValues)
-
-
-
-
-
-
-
     "*** YOUR CODE HERE ***"
-    # return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -683,6 +594,10 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
+    listOfFood = foodGrid.asList()
+    walls = problem.walls
+
+    
     return 0
 
 class ClosestDotSearchAgent(SearchAgent):
