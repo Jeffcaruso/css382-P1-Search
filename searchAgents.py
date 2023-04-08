@@ -266,6 +266,7 @@ def euclideanHeuristic(position, problem, info={}):
 # This portion is incomplete.  Time to write code!  #
 #####################################################
 
+
 class CornersProblem(search.SearchProblem):
     """
     This search problem finds paths through all four corners of a layout.
@@ -273,7 +274,6 @@ class CornersProblem(search.SearchProblem):
     You must select a suitable state space and successor function
     """
     
-
     def __init__(self, startingGameState):
         """
         Stores the walls, pacman's starting position and corners.
@@ -290,9 +290,10 @@ class CornersProblem(search.SearchProblem):
         # in initializing the problem
         "*** YOUR CODE HERE ***"
         print(self.startingPosition)
-        coord = self.startingPosition
+        # coord = self.startingPosition
         # self.startX = coord[0]
         # self.startY = coord[1]
+        # self.visitedGoals = []
         
         # self.x = self.startX 
         # self.y = self.startY
@@ -305,11 +306,8 @@ class CornersProblem(search.SearchProblem):
         """
         "*** YOUR CODE HERE ***"
 
-        #items we need to include
-        # 
 
-
-        return self.startingPosition
+        return (self.startingPosition, [])
         #return (startX, StartY)       
         #return (self.startX , self.startY)
         #util.raiseNotDefined()
@@ -319,20 +317,67 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
+
+        #print("state:", state)
+
+        # if state[1] (visited) has same as self.corners (the 4 corners we are visiting)
+        if(set(state[1]) == set(self.corners)):
+            #indicate so it is easier to find later
+            print("testing: True here!")
+            # return true, all corners have been found
+            return True
+        return False
+
+
+
+
+        # currPos = state[0]
+        # visted = state[1]
+        # for corner in self.corners:
+        #     #compare to current position 
+        #     if (currPos == corner): #(5,1)  (5,1)
+        #         if (currPos in visted):
+        #             visted.append(currPos)
+        #             return False 
+
+        # return True 
+
+        # visited = state[1]
+
+        # for corner in self.corners:
+        #     if visited != corner:
+        #         return False
+        # return True
+
+        ##here?
+        #return set(state[1]) == set(self.corners)
+
         # print(self.corners)
         # print(self.corners[0])
         # print(self.corners[1])
         #for (int i = 0; )
         # for i in range(len(self.corners)):
         #     print(self.corners[i])
-        print("state:", state)
+
         # self.x = state[0]
         # self.y = state[1]
-        currPos = state
-        for corner in self.corners:
-            #compare to current position
-            if currPos == corner:
-                return True
+
+        # currPos = state[0]
+        # visted = state[1]
+        # for corner in self.corners:
+        #     #compare to current position 
+        #     if (currPos == corner): #(5,1)  (5,1)
+        #         if (currPos not in visted):
+        #             visted.append(currPos)
+        #             return True  
+
+        # for corner in self.corners:
+        #     #compare to current position 
+        #     if (currPos == corner): 
+        #         self.visitedGoals.append(currPos)
+        #         return True    
+
+                 
             #end for
 
         #print("reach end of is goal state FN")
@@ -342,7 +387,7 @@ class CornersProblem(search.SearchProblem):
         """
         Returns successor states, the actions they require, and a cost of 1.
 
-         As noted in search.py:
+        As noted in search.py:
             For a given state, this should return a list of triples, (successor,
             action, stepCost), where 'successor' is a successor to the current
             state, 'action' is the action required to get there, and 'stepCost'
@@ -351,9 +396,9 @@ class CornersProblem(search.SearchProblem):
 
         #print("in sucessors...")
 
-        #ToDo:
-        # get successors -> should finish Q5
-        # Move from there
+#         #ToDo:
+#         # get successors -> should finish Q5
+#         # Move from there
 
 
         successors = []
@@ -362,21 +407,35 @@ class CornersProblem(search.SearchProblem):
             # Here's a code snippet for figuring out whether a new position hits a wall:
             #   x,y = currentPosition
             # print(state[0])
-            x,y = state
+            x,y = state[0]
             # print(state[0])
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
-
+            visited = state[1]
             "*** YOUR CODE HERE ***"
             if not hitsWall: #if not at a wall
-                nextPos = (nextx, nexty) 
+                nextPos = (nextx, nexty)
+                # visited = state[1]
+                # cost will always be 1
+                nextCorner = list(state[1])
+
+                if(nextPos in self.corners) and (nextPos not in visited): 
+                    #visited.append(nextPos)
+                    nextCorner.append(nextPos)
+                    print("near corner")
+                #successors.append(((nextPos,visited),action,1))
+                successors.append(((nextPos,nextCorner),action,1))
+                
                 #might have to store visted corners in list ?
                 #check if the nextPost in a self.corner and not in a visite corner
-                # successors.append( ( nextPos, action, 1) ) cost might be 1 in this case and a
+                # successors.append( (nextPos,list(visted)), action, 1) ) cost might be 1 in this case and a
         self._expanded += 1 # DO NOT CHANGE
         print("in sucessors...")
+        
+
         return successors
+
 
     def getCostOfActions(self, actions):
         """
