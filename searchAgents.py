@@ -431,7 +431,7 @@ class CornersProblem(search.SearchProblem):
                 #check if the nextPost in a self.corner and not in a visite corner
                 # successors.append( (nextPos,list(visted)), action, 1) ) cost might be 1 in this case and a
         self._expanded += 1 # DO NOT CHANGE
-        print("in sucessors...")
+        #print("in sucessors...")
         
 
         return successors

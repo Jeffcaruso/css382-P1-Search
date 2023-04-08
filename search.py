@@ -180,7 +180,14 @@ def uniformCostSearch(problem):
     
     while not fringe.isEmpty():      
         #get top of fringe  
-        state, path, cost = fringe.pop()
+        #force reheap?
+        # fringe.update(((1,1),"",-999),-999)
+        # fringe.pop()
+        #/force reheap?
+        
+        state, path, TrueCost = fringe.pop()
+        #print("my output popping",state, path, TrueCost)
+
         if(problem.isGoalState(state)):
             #reached destination, return path
             return path
@@ -198,15 +205,25 @@ def uniformCostSearch(problem):
         
         prevCost = 0
         for child, action, cost in options:
+            #print("my output pushing",child, path + [action], cost + TrueCost)
+            testing = (child, path + [action] ,cost + TrueCost) #cost
+            #save
+            fringe.push(testing, TrueCost + cost)
+            #fringe.update(testing, cost + 1)
+            #fringe.update()
+
             #for each possible direction (options)
-            if child not in visited:   
-                #if coordinates (child) aren't visited            
-                # if(prevCost < cost):
-                #     cost = prevCost
-                testing = (child, path + [action] ,cost) #cost
-                #save
-                fringe.push(testing, cost)
-                prevCost = cost
+            # if child not in visited:   
+            #     #if coordinates (child) aren't visited            
+            #     # if(prevCost < cost):
+            #     #     cost = prevCost
+            #     print("my output pushing",child, path + [action], cost + TrueCost)
+            #     testing = (child, path + [action] ,cost + TrueCost) #cost
+            #     #save
+            #     fringe.push(testing, cost + 1)
+            #     #fringe.update(testing, cost + 1)
+            #     #fringe.update()
+            #     prevCost = cost
     
     #end of UCS   
 
