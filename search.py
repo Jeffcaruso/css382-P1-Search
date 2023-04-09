@@ -148,7 +148,7 @@ def breadthFirstSearch(problem):
         #optain possible options where it can go 
         if state not in visited:
             options = problem.getSuccessors(state)
-            visited.append(state)  #state?
+            visited.append(state) 
         else:
             options = []
         #mark state as visited (one that says where we can go)
@@ -199,20 +199,6 @@ def uniformCostSearch(problem):
             node = (child, path + [action] ,cost + TrueCost) #cost
             #save
             fringe.push(node, TrueCost + cost)
-
-            #for each possible direction (options)
-            # if child not in visited:   
-            #     #if coordinates (child) aren't visited            
-            #     # if(prevCost < cost):
-            #     #     cost = prevCost
-            #     print("my output pushing",child, path + [action], cost + TrueCost)
-            #     testing = (child, path + [action] ,cost + TrueCost) #cost
-            #     #save
-            #     fringe.push(testing, cost + 1)
-            #     #fringe.update(testing, cost + 1)
-            #     #fringe.update()
-            #     prevCost = cost
-    
     #end of UCS   
 
 def nullHeuristic(state, problem=None):
@@ -252,24 +238,14 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             options = problem.getSuccessors(state)
             visited.append(state)  #state?
         else:
+            #is visited, so don't do anything with it, 
+            #    for loop does nothing b/c no options exist...
             options = []
-        
-        # for child, action, cost in options:
-        #     #for each possible direction (options)
-        #     if child not in visited:   
-        #         #print(heuristic)
-        #         #hCost = getHeuristicCost(child,problem, heuristic)
-        #         hCost = heuristic(child,problem)
-        #         #cost += test
-        #         testing = (child, path + [action] , cost) #cost + test? 
-        #         #but then cost has previous?
-        #         #save
-        #         fringe.push(testing,cost + hCost)
 
         for child, action, cost in options:
             #for each possible direction (options)  
             hCost = heuristic(child,problem)
-            node = (child, path + [action] , TrueCost + cost) #cost + test? 
+            node = (child, path + [action] , TrueCost + cost)
             #True cost = cost from fringe from before...
             fringe.push(node, TrueCost + cost + hCost)
     #end of AStar   

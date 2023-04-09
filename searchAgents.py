@@ -289,7 +289,6 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        #print(self.startingPosition)
         
 
     def getStartState(self):
@@ -338,7 +337,6 @@ class CornersProblem(search.SearchProblem):
             "*** YOUR CODE HERE ***"
             if not hitsWall: #if not at a wall
                 nextPos = (nextx, nexty)
-                # visited = state[1]
                 nextCorner = list(visited) #same as state[1]
                 if(nextPos in self.corners) and (nextPos not in visited): 
                     nextCorner.append(nextPos)
@@ -377,16 +375,14 @@ def cornersHeuristic(state, problem):
     "*** YOUR CODE HERE ***"
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-
+    #current position of pacman
     curPos = state[0]
-    #print(xy1)
-    #xy2 = problem.corners
+    #visited locations
     visited = state[1] 
-    #HValues = []
     heuristic = 0
+    #start at a much too large #, so it is reduced for first valid item
     closestDistance = 99999
-    #xy9 = state[0]
-
+    #eventual storage of closest node
     cToDelete = state[0]
 
     #corners not yet visited is all corners - corners that have been visited 
@@ -478,18 +474,7 @@ def foodHeuristic(state, problem):
 
     This heuristic must be consistent to ensure correctness.  First, try to come
     up with an admissible heuristic; almost all admissible heuristics will be
-    consistent as well.
-
-    If using A* ever finds a solution that is worse uniform cost search finds,
-    your heuristic is *not* consistent, and probably not admissible!  On the
-    other hand, inadmissible or inconsistent heuristics may find optimal
-    solutions, so be careful.
-
-    The state is a tuple ( pacmanPosition, foodGrid ) where foodGrid is a Grid
-    (see game.py) of either True or False. You can call foodGrid.asList() to get
-    a list of food coordinates instead.
-
-    If you want access to info like walls, capsules, etc., you can query the
+    consistends, capsules, etc., you can query the
     problem.  For example, problem.walls gives you a Grid of where the walls
     are.
 
@@ -502,10 +487,46 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    listOfFood = foodGrid.asList()
-    walls = problem.walls
 
+    #pacmans current position
+    curPos = state[0]
     
+    heuristic = 0
+    #start at a much too large #, so it is reduced for first valid item
+    closestDistance = 99999
+    #start at a much too small #, so it is reduced for first valid item
+    longestDistance = 0
+    
+    fShort = state[0]
+    fLong = state[0]
+
+    #food to eat
+    availableFood = []
+    availableFood = foodGrid.asList()
+
+    while len(availableFood) > 0: #while there are still avliable 
+        # find corner shortest manhattan dist away
+        for f in availableFood: #check non visited food
+            #distance for given corner
+            d = util.manhattanDistance(f,curPos)
+            if(d < closestDistance):
+                #update to lowest distance for this round
+                closestDistance = d
+                fShort = f
+            if(d > longestDistance):
+                longestDistance = d
+                fLong = f
+        
+        ### management
+        heuristic = closestDistance + util.manhattanDistance(fShort, fLong) #update hueristic to shortest distance
+
+        closestDistance = 99999
+        longestDistance = 0
+        availableFood.remove(fShort) # the node is now visited so remove from not visited
+        curPos = fShort #move to that food
+        return heuristic   
+    
+    #shouldn't hit this, but in case we do...
     return 0
 
 class ClosestDotSearchAgent(SearchAgent):
@@ -537,7 +558,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return search.ucs(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -570,10 +591,15 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         The state is Pacman's position. Fill this in with a goal test that will
         complete the problem definition.
         """
+        # get coordinates from state
         x,y = state
 
-        "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        #if food is at coordinates
+        if self.food[x][y] == True:
+            #return true (spot is food)
+            return True
+        #place we are at does not have food
+        return False
 
 def mazeDistance(point1, point2, gameState):
     """
